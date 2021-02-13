@@ -1,5 +1,6 @@
 package com.xiao.edu.controllers;
 
+import com.xiao.commonutils.R;
 import com.xiao.edu.entities.EduTeacher;
 import com.xiao.edu.services.EduTeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,14 @@ public class EduTeacherController {
     private EduTeacherService eduTeacherService;
 
     @GetMapping("findAll")
-    public List<EduTeacher> findAllTeachers() {
+    public R findAllTeachers() {
         List<EduTeacher> teachers = eduTeacherService.list(null);
-        return teachers;
+        return R.ok().data("teachers", teachers);
     }
 
     @DeleteMapping("{id}")
-    public boolean removeById(@PathVariable String id) {
-        return eduTeacherService.removeById(id);
+    public R removeById(@PathVariable String id) {
+        boolean result = eduTeacherService.removeById(id);
+        return result? R.ok(): R.error();
     }
 }
